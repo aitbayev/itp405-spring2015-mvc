@@ -3,6 +3,7 @@
 use Illuminate\Http\Request;
 use DB;
 use App\Models\Dvd;
+use Validator;
 
 class DvdsController extends Controller{
 
@@ -32,4 +33,40 @@ class DvdsController extends Controller{
                 'rating'=> $request->input('rating')
             ]);
     }
+
+    public function review($id){
+
+        $query = new DVD();
+        $dvds = $query->getDetails($id);
+        $reviews = Dvd::getReviews($id);
+            return view('details',
+                ['dvd' => $dvds[0],
+                    'id' => $id,
+                    'reviews' => $reviews
+                ]);
+    }
+
+    public function addReview(Request $request){
+
+
+        $validator = Dvd::validate($request->all());
+
+        if ($validator->passes()) {
+            Dvd::create([
+                'title' => $request->input('title'),
+                'rating' => $request->input('rating'),
+                'description' => $request->input('description'),
+                'dvd_id' => $request->input('dvd_id')
+            ]);
+
+
+            return redirect('/dvds/'.$request->input('dvd_id'))->with('success', 'Review successfully added.');
+        }
+
+        return redirect('/dvds/'.$request->input('dvd_id'))->withErrors($validator)->withInput();
+
+    }
+
+
+
 }
