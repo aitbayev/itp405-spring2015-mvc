@@ -36,10 +36,29 @@
             h1{
                 text-align: center;
             }
+
+            .sidebar{
+                width: 150px;
+                float: left;
+            }
+
             </style>
     </head>
     <body>
+    <div class="sidebar">
+        Search by genre:
+        <br/>
+
+        <?php foreach ($genres as $genre) : ?>
+        <a href="<?php echo url('genres/' . $genre->genre_name . '/dvds') ?>"> <?php echo $genre->genre_name ?></a>
+            <br/>
+            <?php endforeach ?>
+    </div>
+
     <div id="container">
+
+
+
     <h1> Dvd Search</h1>
         <form action="/dvds" method="get" class="form navbar-form">
             <div class="line">

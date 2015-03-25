@@ -1,8 +1,21 @@
 <?php namespace App\Models;
 use DB;
+use Illuminate\Database\Eloquent\Model;
 use Validator;
 
-class Dvd {
+class Dvd extends Model{
+
+    public function genre(){
+        return $this -> belongsTo('App\Models\Genre');
+    }
+    public function label(){
+        return $this -> belongsTo('App\Models\Label');
+    }
+
+    public function rating(){
+        return $this -> belongsTo('App\Models\Rating');
+    }
+
 
     public function search($title, $genre, $rating){
 
@@ -40,6 +53,18 @@ class Dvd {
         return $query->get();
     }
 
+    public function getSounds(){
+        return DB::table('sounds')->get();
+    }
+
+    public function getFormats(){
+        return DB::table('formats')->get();
+    }
+
+    public function getLabels(){
+        return DB::table('labels')->get();
+    }
+
     public function getDetails($id){
         $query = DB::table('dvds')
             ->join('ratings', 'ratings.id', '=', 'dvds.rating_id')
@@ -51,8 +76,7 @@ class Dvd {
         return $query->get();
     }
 
-    public static function create($input)
-    {
+    public static function createReview($input) {
         DB::table('reviews')->insert($input);
     }
 

@@ -12,7 +12,14 @@
 */
 
 Route::get('/', 'WelcomeController@index');
+
+Route::get('/dvds/create', 'DvdsController@createDvd' );
+Route::post('/dvds', 'DvdsController@insertDvd');
+
 Route::get('/dvds/search', 'DvdsController@search');
 Route::get('/dvds', 'DvdsController@results');
+
 Route::get('/dvds/{id}', 'DvdsController@review');
 Route::post('dvds/addreview', 'DvdsController@addReview');
+
+Route::get('/genres/{genre_name}/dvds', 'DvdsController@dvdsWithGenre');
